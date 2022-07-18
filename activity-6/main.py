@@ -44,7 +44,7 @@ def read_graph_from_file_and_add_nodes(file_name, graph):
 
 
 def main():
-    graphs_names = ["collaboration", "protein"]
+    graphs_names = ["powergrid", "protein"]
 
     for graph_name in graphs_names:
         graph = nx.Graph()
