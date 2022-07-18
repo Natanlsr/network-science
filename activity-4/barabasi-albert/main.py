@@ -88,12 +88,11 @@ def barabasi_albert(n, m):
 
 
 def main():
-    if __name__ == '__main__':
-        n = 20000
-        m = 3
-        barabasi_generated = barabasi_albert(n, m)
-        barabasi_generated_networkx = nx.barabasi_albert_graph(n, m)
-        plot_degree_distribution(degree_per_node(barabasi_generated), degree_per_node(barabasi_generated_networkx))
+    n = 20000
+    m = 3
+    barabasi_generated = barabasi_albert(n, m)
+    barabasi_generated_networkx = nx.barabasi_albert_graph(n, m)
+    plot_degree_distribution(degree_per_node(barabasi_generated), degree_per_node(barabasi_generated_networkx))
 
 
 if __name__ == '__main__':
