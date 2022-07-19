@@ -1,40 +1,19 @@
 import networkx as nx
+import numpy as np
 from matplotlib import pyplot as plt
 
 
-def format_value(value):
-    return round(value, 3)
+def plot_histogram(dict_values, graph_name):
+    np_values = np.array(list(dict_values.values()))
 
+    # Creating histogram
+    fig, ax = plt.subplots(figsize=(10, 7))
+    ax.hist(np_values, bins="sqrt")
 
-def count_float_value(value, values):
-    limited_value = format_value(value)
-    count = 0
-    for value_in_list in values:
-        limited_value_in_list = format_value(value_in_list)
-        if limited_value == limited_value_in_list:
-            count += 1
-    return count
-
-
-def get_frequencies(values):
-    frequencies = {}
-    total = len(values)
-    values_float = [float(x) for x in list(values.values())]
-    for value in values_float:
-        count = format_value(count_float_value(value, values_float) / total)
-        if count != 0.000:
-            frequencies[format_value(value)] = count
-    return frequencies
-
-
-def plot_histogram(values):
-    # plt.figure(figsize=(12, 8))
-    # plt.bar(*zip(*values.items()))
-    # plt.hist(values, density=True, bins=80)
-    # plt.ylabel('Y')
-    # plt.xlabel('X')
-    print(values)
-    plt.bar((list(values.keys())), list(values.values()), align='center')
+    # Show plot
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+    plt.title(graph_name)
     plt.show()
 
 
@@ -63,17 +42,15 @@ def main():
             betweenness_centrality = nx.betweenness_centrality(graph)
             eigenvector_centrality = nx.eigenvector_centrality(graph)
             # print(shortest_paths)
-            plot_histogram(get_frequencies(betweenness_centrality))
-            plot_histogram(get_frequencies(eigenvector_centrality))
+            plot_histogram(betweenness_centrality, "Betweenness Centrality: " + graph_name)
+            plot_histogram(eigenvector_centrality, "Eigenvector Centrality: " + graph_name)
 
-        # print("Degree Assortativity Coefficient from network", graph_name, ": ",
-        #       nx.degree_assortativity_coefficient(graph))
-        # print("Degree Pearson Correlation Coefficient", graph_name, ": ",
-        #       nx.degree_pearson_correlation_coefficient(graph))
-        # print("-----------------------------------------------------------------")
-        # print()
-
-        # plot_degree_dist(graph, graph_name)
+        print("Degree Assortativity Coefficient from network", graph_name, ": ",
+              nx.degree_assortativity_coefficient(graph))
+        print("Degree Pearson Correlation Coefficient", graph_name, ": ",
+              nx.degree_pearson_correlation_coefficient(graph))
+        print("-----------------------------------------------------------------")
+        print()
 
 
 if __name__ == '__main__':
