@@ -101,7 +101,7 @@ def girvan_newman(graph):
     # Draw nodes and internal edges
     nx.draw_networkx(
         graph, pos=karate_pos, node_color=node_color,
-        edgelist=internal, edge_color=internal_color)
+        edgelist=internal, edge_color=internal_color, with_labels=False)
 
 
 def main():
