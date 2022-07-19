@@ -16,7 +16,7 @@
 
 ### Power Grid
 
-![powergrid](https://user-images.githubusercontent.com/39385060/179444968-b76fbcfd-5a04-431a-a67d-f576339518dc.png)
+![powergrid-greed-2](https://user-images.githubusercontent.com/39385060/179653179-1c1a9107-5d9c-491d-a6bc-b1b69c59ecc6.png)
 
 ##  Girvan Newman Communities
 ### Protein
