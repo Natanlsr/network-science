@@ -51,30 +51,65 @@ def greedy_modularity_communities(graph):
     # Set node and edge communities
     set_node_community(graph, communities)
     set_edge_community(graph)
-    # Set community color for internal edges
+    node_color = [get_color(graph.nodes[v]['community']) for v in graph.nodes]
+    # Set community color for edges between members of the same community (internal) and intra-community edges (
+    # external)
     external = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] == 0]
     internal = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] > 0]
-    internal_color = ["black" for e in internal]
+    internal_color = ['black' for e in internal]
     node_color = [get_color(graph.nodes[v]['community']) for v in graph.nodes]
     # external edges
-    pos = nx.spring_layout(graph, k=0.1)
+    pos = nx.spring_layout(graph)
+    plt.rcParams.update({'figure.figsize': (15, 10)})
+    # Draw external edges
+    nx.draw_networkx(
+        graph,
+        pos=pos,
+        node_size=0,
+        edgelist=external,
+        edge_color="silver")
+    # Draw nodes and internal edges
+    nx.draw_networkx(
+        graph,
+        pos=pos,
+        node_color=node_color,
+        edgelist=internal,
+        edge_color=internal_color)
+
+
+def greedy_modularity_communities_2(graph):
+    plt.rcParams.update(plt.rcParamsDefault)
+    plt.rcParams.update({'figure.figsize': (15, 10)})
+    plt.style.use('dark_background')
+    communities = sorted(nxcom.greedy_modularity_communities(graph), key=len, reverse=True)
+    # Set node and edge communities
+    set_node_community(graph, communities)
+    set_edge_community(graph)
+    node_color = [get_color(graph.nodes[v]['community']) for v in graph.nodes]
+    # Set community color for edges between members of the same community (internal) and intra-community edges (
+    # external)
+    external = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] == 0]
+    internal = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] > 0]
+    internal_color = ['black' for e in internal]
+    node_color = [get_color(graph.nodes[v]['community']) for v in graph.nodes]
+    # external edges
+    pos = nx.spring_layout(graph)
+    plt.rcParams.update({'figure.figsize': (15, 10)})
+    # Draw external edges
     nx.draw_networkx(
         graph,
         pos=pos,
         node_size=0,
         edgelist=external,
         edge_color="silver",
-        node_color=node_color,
-        alpha=0.2,
         with_labels=False)
-    # internal edges
+    # Draw nodes and internal edges
     nx.draw_networkx(
         graph,
         pos=pos,
+        node_color=node_color,
         edgelist=internal,
         edge_color=internal_color,
-        node_color=node_color,
-        alpha=0.05,
         with_labels=False)
 
 
@@ -114,7 +149,7 @@ def main():
         print("Number of nodes from network", graph_name, ": ", graph.number_of_nodes())
 
         greedy_modularity_communities(graph)
-
+        greedy_modularity_communities_2(graph)
         girvan_newman(graph)
 
 
