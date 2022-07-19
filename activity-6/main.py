@@ -43,46 +43,79 @@ def read_graph_from_file_and_add_nodes(file_name, graph):
             graph.add_edge(i, j)
 
 
+def greedy_modularity_communities(graph):
+    plt.rcParams.update(plt.rcParamsDefault)
+    plt.rcParams.update({'figure.figsize': (15, 10)})
+    plt.style.use('dark_background')
+    communities = sorted(nxcom.greedy_modularity_communities(graph), key=len, reverse=True)
+    # Set node and edge communities
+    set_node_community(graph, communities)
+    set_edge_community(graph)
+    # Set community color for internal edges
+    external = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] == 0]
+    internal = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] > 0]
+    internal_color = ["black" for e in internal]
+    node_color = [get_color(graph.nodes[v]['community']) for v in graph.nodes]
+    # external edges
+    pos = nx.spring_layout(graph, k=0.1)
+    nx.draw_networkx(
+        graph,
+        pos=pos,
+        node_size=0,
+        edgelist=external,
+        edge_color="silver",
+        node_color=node_color,
+        alpha=0.2,
+        with_labels=False)
+    # internal edges
+    nx.draw_networkx(
+        graph,
+        pos=pos,
+        edgelist=internal,
+        edge_color=internal_color,
+        node_color=node_color,
+        alpha=0.05,
+        with_labels=False)
+
+
+def girvan_newman(graph):
+    result = nxcom.girvan_newman(graph)
+    communities = next(result)
+    len(communities)
+    plt.rcParams.update(plt.rcParamsDefault)
+    plt.rcParams.update({'figure.figsize': (15, 10)})
+    # Set node and edge communities
+    set_node_community(graph, communities)
+    set_edge_community(graph)
+    # Set community color for nodes
+    node_color = [get_color(graph.nodes[v]['community']) for v in graph.nodes]
+    # Set community color for internal edges
+    external = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] == 0]
+    internal = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] > 0]
+    internal_color = [get_color(graph.edges[e]['community']) for e in internal]
+    karate_pos = nx.spring_layout(graph)
+    # Draw external edges
+    nx.draw_networkx(
+        graph, pos=karate_pos, node_size=0,
+        edgelist=external, edge_color="#333333", with_labels=False)
+    # Draw nodes and internal edges
+    nx.draw_networkx(
+        graph, pos=karate_pos, node_color=node_color,
+        edgelist=internal, edge_color=internal_color)
+
+
 def main():
-    graphs_names = ["powergrid", "protein"]
+    graphs_names = ["protein", "powergrid"]
 
     for graph_name in graphs_names:
         graph = nx.Graph()
         read_graph_from_file_and_add_nodes("./resources/" + graph_name + ".edgelist.txt", graph)
 
         print("Number of nodes from network", graph_name, ": ", graph.number_of_nodes())
-        plt.rcParams.update(plt.rcParamsDefault)
-        plt.rcParams.update({'figure.figsize': (15, 10)})
-        plt.style.use('dark_background')
-        communities = sorted(nxcom.greedy_modularity_communities(graph), key=len, reverse=True)
-        # Set node and edge communities
-        set_node_community(graph, communities)
-        set_edge_community(graph)
-        # Set community color for internal edges
-        external = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] == 0]
-        internal = [(v, w) for v, w in graph.edges if graph.edges[v, w]['community'] > 0]
-        internal_color = ["black" for e in internal]
-        node_color = [get_color(graph.nodes[v]['community']) for v in graph.nodes]
-        # external edges
-        pos = nx.spring_layout(graph, k=0.1)
-        nx.draw_networkx(
-            graph,
-            pos=pos,
-            node_size=0,
-            edgelist=external,
-            edge_color="silver",
-            node_color=node_color,
-            alpha=0.2,
-            with_labels=False)
-        # internal edges
-        nx.draw_networkx(
-            graph,
-            pos=pos,
-            edgelist=internal,
-            edge_color=internal_color,
-            node_color=node_color,
-            alpha=0.05,
-            with_labels=False)
+
+        greedy_modularity_communities(graph)
+
+        girvan_newman(graph)
 
 
 if __name__ == '__main__':
