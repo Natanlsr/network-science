@@ -14,7 +14,6 @@
 
 ![protein-girvan](https://user-images.githubusercontent.com/39385060/179649689-37e0ffa9-2a4b-45e4-a77f-0fa0f8099a6d.png)
 
-
 ### Power Grid
 
-![powergrid](https://user-images.githubusercontent.com/39385060/179444968-b76fbcfd-5a04-431a-a67d-f576339518dc.png)
+![powergrid-girvan](https://user-images.githubusercontent.com/39385060/179651663-e1d20e02-3b44-4889-a449-118f82956060.png)
