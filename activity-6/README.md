@@ -9,6 +9,15 @@
 
 ![powergrid](https://user-images.githubusercontent.com/39385060/179444968-b76fbcfd-5a04-431a-a67d-f576339518dc.png)
 
+##  Greedy Modularity Communities 2
+### Protein
+
+![protein-gredd-2](https://user-images.githubusercontent.com/39385060/179653030-00b0b3dd-2b48-43ee-ac79-9be937c811d7.png)
+
+### Power Grid
+
+![powergrid](https://user-images.githubusercontent.com/39385060/179444968-b76fbcfd-5a04-431a-a67d-f576339518dc.png)
+
 ##  Girvan Newman Communities
 ### Protein
 
